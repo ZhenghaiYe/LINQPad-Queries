@@ -1,0 +1,2224 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HealthCare.Data.MongoModel</name>
+    </assembly>
+    <members>
+        <member name="T:HealthCare.Data.SfraObject">
+            <summary>
+                SFRA对象,所有可单独存储于mongo的collection中的数据要继承此类
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.SfraObject.UniqueId">
+            <summary>
+                唯一标识符
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.SfraObject.CreatedTime">
+            <summary>
+                数据对象创建时间,通常是MONGO数据生成的时间
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.MongoSyncable">
+            <summary>
+                支持同步第三方数据 对象基类
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoSyncable.DisplayName">
+            <summary>
+                对象名称
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoSyncable.DisplayOrder">
+            <summary>
+                显示顺序
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoSyncable.IsDisabled">
+            <summary>
+                数据是否禁用、无效
+            </summary>
+        </member>
+        <member name="M:HealthCare.Data.MongoSyncable.op_Equality(HealthCare.Data.MongoSyncable,HealthCare.Data.MongoSyncable)">
+            <summary>
+                根据 UniqueId 判断两个对象是否相等
+            </summary>
+        </member>
+        <member name="M:HealthCare.Data.MongoSyncable.op_Inequality(HealthCare.Data.MongoSyncable,HealthCare.Data.MongoSyncable)">
+            <summary>
+                根据 UniqueId 判断两个对象是否不等
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.RetrievableObject">
+            <summary>
+                可通过拼音检索的对象
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.RetrievableObject.Code">
+            <summary>
+                检索编码，不同于拼音检索的另一种编码体系    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.RetrievableObject.Pinyin">
+            <summary>
+                拼音码，简拼，即首字母缩写，大写形式，如SFRA    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.RetrievableObject.PinyinFull">
+            <summary>
+                拼音全拼，含声母韵母，且声母大写，韵母小写，如ShengFuRuiAn [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Storage">
+            <summary>
+                硬件存储节点
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.Computer">
+            <summary>
+                终端计算机IP
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.DisplayText">
+            <summary>
+                显示文本标签，通常是编码的文本描述意义
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.No">
+            <summary>
+                节点编码，例如药柜可控设备采用14位16进制编码 FF(药柜) FFFF(抽屉) FFFF(药盒) FFFF(针剂) 等4层级
+                格式：ip:node 如 192.168.3.1:01-0101
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.Location">
+            <summary>
+                存储位置的信息，即通过行、列描述的位置
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.IsControlled">
+            <summary>
+                是否受控的存储节点，'受控'即具有硬件指令执行或信号的存储设备，其余则为'非受控'
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.NodeType">
+            <summary>
+                节点类型，用于描述子类，如药柜，针剂，玻璃门
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Storage.OwnerId">
+            <summary>
+                该药盒的唯一使用者（不为空时该盒子被锁定，解锁之后可以被其他人使用）
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Customer">
+            <summary>
+                客户信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Customer.Cabinets">
+            <summary>
+                智能药柜
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Customer.OutOfCabinets">
+            <summary>
+                柜外存储
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Customer.ParentId">
+            <summary>
+                上级
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.CabinetDevice">
+            <summary>
+                智能药柜 或 柜外存储
+            <remarks>
+                柜外存储通常是保险柜，木制药柜，冰柜等可二维布局的存储位置    
+            </remarks>
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.IsPrimary">
+            <summary>
+                是否是主柜
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.DisplayOrder">
+            <summary>
+                柜子显示顺序
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.Drawers">
+            <summary>
+                抽屉，按照层方式存储
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.Department">
+            <summary>
+                所属发药科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.DepartmentId">
+            <summary>
+                所属发药科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.ParentId">
+            <summary>
+                父级关联ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.CabinetDevice.OwnerCode">
+            <summary>
+                所属客户，即客户的编码
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Location">
+            <summary>
+                位置模型，通过(start,end)坐标形式表示一个矩形
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Location.CellStart">
+            <summary>
+                单元格起点
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Location.CellEnd">
+            <summary>
+                单元格终点
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Location.Remark">
+            <summary>
+                位置备注描述，如主柜第三层第二受控药盒，柜外16号药盒，冷藏冰箱
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Cell">
+            <summary>
+                单元格点坐标
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Cell.X">
+            <summary>
+                列 - X，从 1 开始计数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Cell.Y">
+            <summary>
+                行 - Y，从 1 开始计数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Cell.Z">
+            <summary>
+                深度 Z，从 1 开始计数
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.DrawerDevice">
+            <summary>
+                药抽屉
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.MaxColumn">
+            <summary>
+                最大列数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.MaxRow">
+            <summary>
+                最大行数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.PaddingTop">
+            <summary>
+                抽屉中药盒的上边界距离底边的距离
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.PaddingBottom">
+            <summary>
+                抽屉中药盒的下边界距离底边的距离
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.Boxes">
+            <summary>
+                药盒
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.IsAllLocked">
+            <summary>
+                抽屉的药盒是否已经完全锁定
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.IsLayoutLocked">
+            <summary>
+                智能柜配置页面是否已经锁定布局
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DrawerDevice.IsRecycleBin">
+            <summary>
+                抽屉是否作为回收箱（如 空安瓿回收）
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.BoxDevice">
+            <summary>
+                药盒
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.BoxMode">
+            <summary>
+                药盒类型
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.Fills">
+            <summary>
+                填充的物品的 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.Injections">
+            <summary>
+                针剂
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.IsKit">
+            <summary>
+                是否认为 <see cref="P:HealthCare.Data.BoxDevice.Fills" /> 是一个套装
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.KitId">
+            <summary>
+                套装
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.KitName">
+            <summary>
+                套装名称
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.IsDoubleCertify">
+            <summary>
+                操作该药盒时是否需要双人认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.BoxDevice.IsBreakdown">
+            <summary>
+                是否故障。通常是用户在使用时发现药盒不能打开，标记为故障。已经故障的药盒不能参与后续的位置分配
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.BoxMode">
+            <summary>
+                <see cref="T:HealthCare.Data.BoxDevice" />的类型
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.UnmanagedBox">
+            <summary>
+                非控药盒
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.ManagedBox">
+            <summary>
+                受控药盒
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.InjectionBox">
+            <summary>
+                受控针剂
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.LedBoxVersion1">
+            <summary>
+                受控 LED 的药盒 (单色灯)
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.LedBoxVersion2">
+            <summary>
+                受控 LED 的药盒 (双色灯)
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.BoxMode.VirtualBox">
+            <summary>
+                柜外（算法使用。分配的位置不属于智能药柜）
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.NodeGoodsInfo">
+            <summary>
+                药盒和物品信息的关联
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.Goods">
+            <summary>
+                物品耗材对象 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.GoodsId">
+            <summary>
+                物品耗材的ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.BatchNumber">
+            <summary>
+                批号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.ExpiredDate">
+            <summary>
+                有效期 [DateTime.MaxValue]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.QtyExisted">
+            <summary>
+                物品现存量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.QtyMax">
+            <summary>
+                该节点最大存储量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.StorageTime">
+            <summary>
+                按照药格存储时间进行物品推送算法使用（有针剂时，以针剂的最小时间为准）
+                第一次补充物品，顺序使用后，若某个药格是针剂且未使用完
+                第二次补充物品后，推送的物品地址应该接续  [DateTime.Now]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.Barcodes">
+            <summary>
+                扫描枪条码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.StorageNo">
+            <summary>
+                存储节点 No [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.NodeGoodsInfo.StorageDisplay">
+            <summary>
+                存储节点名称 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.InjectionDevice">
+            <summary>
+                针剂设备
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Templates">
+            <summary>
+                json模板
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Exchange">
+            <summary>
+                物品流转（虚拟医嘱）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.Goods">
+            <summary>
+                物品
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.GoodsId">
+            <summary>
+                物品唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.BatchNumber">
+            <summary>
+                物品批号，当处方提供批号时，分配药盒位置时则必须使用该批号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.ExpiredDate">
+            <summary>
+                物品有效期
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.Mode">
+            <summary>
+                流转模式，明确使用该属性表述，在业务中不可使用<see cref="P:HealthCare.Data.Exchange.Qty" />的正负数判定
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.Qty">
+            <summary>
+                物品的流转数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.Plans">
+            <summary>
+                动作计划，指定位置指定物品   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.IsSpecified">
+            <summary>
+                算法指派存储空间是否完成
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.QtyActual">
+            <summary>
+                实际执行的物品数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.GoodsBarcodes">
+            <summary>
+                物品条码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.FinishTime">
+            <summary>
+                完成时刻
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.CustomerId">
+            <summary>
+                所属 Customer
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.Computer">
+            <summary>
+                终端 IP
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.ExchangeBarcode">
+            <summary>
+                处方、调拨、预支条形码 [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.RecordType">
+            <summary>
+                记录来源，药方记录来源，如HIS、手麻(OIS)、估药(Evaluated)、预支(Medication)、虚拟(Virtual)、HIS调拨(Allocate)、SFRA内部流转(Int-Allocate)
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.TimeFilter">
+            <summary>
+                时间过滤，SFRA方使用该属性进行按时间条件筛选数据条目
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.ChargeOffId">
+            <summary>
+                平账人ID，有平账人  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.FinishedAmpoule">
+            <summary>
+                是否已完成回收空安瓿废贴
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.AssignAmpouleRecords">
+            <summary>
+                回收记录    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.PrintNumber">
+            <summary>
+                处方、调拨、预支打印编号    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.PrintRecords">
+            <summary>
+                打印次数相关信息    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.AmpouleRecord.RepaidPerson">
+            <summary>
+                归还空安瓿的人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.AmpouleRecord.ReceivePerson">
+            <summary>
+                接收空安瓿的人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.AmpouleRecord.OwnerCode">
+            <summary>
+                流转的 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Exchange.AmpouleRecord.RecycleType">
+            <summary>
+                回收类型(空安瓿回收,药品回收)
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.ExchangeMode">
+            <summary>
+                流转模式
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.ExchangeMode.None">
+            <summary>
+            没有实际操作库存。库存清点
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.ExchangeMode.CheckIn">
+            <summary>
+                存、退、还
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.ExchangeMode.CheckOut">
+            <summary>
+                卸、取、拿
+            </summary>
+        </member>
+        <member name="F:HealthCare.Data.ExchangeMode.Medication">
+            <summary>
+                药方
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.ActionPlan">
+            <summary>
+                动作计划，操作指定位置的物品
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionPlan.Mode">
+            <summary>
+                取、退
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionPlan.Box">
+            <summary>
+                物品所存储的节点
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionPlan.Qty">
+            <summary>
+                物品变化量，存储节点所分配的物品数量，无正负之分，增减含义通过<see cref="P:HealthCare.Data.ActionPlan.Mode" />区分
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionPlan.IsExecuted">
+            <summary>
+                动作是否被执行，执行计划后要根据<see cref="P:HealthCare.Data.ActionPlan.Mode" />和<see cref="P:HealthCare.Data.ActionPlan.Qty" />去修改<see cref="P:HealthCare.Data.ActionPlan.Box" />所指向位置的
+                <see cref="P:HealthCare.Data.NodeGoodsInfo.QtyExisted" />现存数量以及<see cref="P:HealthCare.Data.NodeGoodsInfo.StorageTime" />存储时间
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Allocation">
+            <summary>
+                物品调配信息（SFRA物品来源），HIS上级库房调配、同级科室调配
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.ApplyId">
+            <summary>
+                申请号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.ApplyQty">
+            <summary>
+                申请数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DepartmentSource">
+            <summary>
+                出库部门/科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DepartmentSourceId">
+            <summary>
+                出库部门/科室ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DepartmentDestination">
+            <summary>
+                接收部门/科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DepartmentDestinationId">
+            <summary>
+                接收部门/科室ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DeliveryNumber">
+            <summary>
+                出库序号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DeliverTime">
+            <summary>
+                HIS 确认交付的时刻
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.AcceptedQty">
+            <summary>
+                已经接收的数量   当发送数量<see cref="P:HealthCare.Data.Exchange.Qty" />大于接收数量<see cref="P:HealthCare.Data.Allocation.AcceptedQty" />时，表示未完全入库
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.Receiver">
+            <summary>
+                接收操作人（通常为工号）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.ReceiverName">
+            <summary>
+                接收操作人姓名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.ReceivedTime">
+            <summary>
+                接收时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.UnCompleteReason">
+            <summary>
+                只验收一部分物品时填写的原因
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.Deliverer">
+            <summary>
+                接收确认人\复核人 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.DelivererName">
+            <summary>
+                接收确认人\复核人姓名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.Storager">
+            <summary>
+                入库人、出库人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.StoragerName">
+            <summary>
+                入库人、出库人姓名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Allocation.ExchangeId">
+            <summary>
+                当为 SFRA 生成的调拨单时，记录对应的流转 Id
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Prescription">
+            <summary>
+                医嘱、处方等药方信息（用药记录凭证）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.TrackNumber">
+            <summary>
+                单号，处方号、请领单号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DepartmentSource">
+            <summary>
+                开单科室 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DepartmentSourceId">
+            <summary>
+                开单科室 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.Doctor">
+            <summary>
+                医生
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DoctorId">
+            <summary>
+                医生唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.Patient">
+            <summary>
+                患者
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.PatientId">
+            <summary>
+                患者唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.Description">
+            <summary>
+                医嘱类型，如长期医嘱、临时医嘱，出院带药
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.IsWhole">
+            <summary>
+                是否是整盒、整瓶取药
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.IssuedTime">
+            <summary>
+                开嘱时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.UsedFrequency">
+            <summary>
+                用药频次，
+                qd 每日一次，
+                bid 每日两次，
+                tid 每日三次，
+                qid 每日四次，
+                qh 每小时一次，
+                q2h 每两小时一次，
+                q4h 每四小时一次，
+                q6h 每六小时一次，
+                qn 每晚一次，
+                qod 隔日一次，
+                biw 每周两次，
+                hs 临睡前，
+                am 上午pm 下午，
+                St 立即，
+                DC 停止、取消，
+                prn 需要时（长期），
+                sos 需要时（限用一次，12小时内有效），
+                ac 饭前pc 饭后，
+                12n 中午12点，
+                12mn午夜12点，
+                gtt 滴，
+                ID 皮内注射，
+                H 皮下注射，
+                IM 肌肉注射，
+                IV 静脉注射，
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.UsedPurpose">
+            <summary>
+                途径,
+                po  口服
+                im  肌内注射
+                iv  静脉注射
+                ivgtt   静脉注射
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.UsedDosage">
+            <summary>
+                每个频次时的用量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.FeeCollectorId">
+            <summary>
+                收费员 [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.FeeTime">
+            <summary>
+                收费时间    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.FeeType">
+            <summary>
+                收费类别，如自费、公费、医保  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.Deposit">
+            <summary>
+                押金  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DepartmentDestination">
+            <summary>
+                发药科室 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DepartmentDestinationId">
+            <summary>
+                发药科室 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.AgentId">
+            <summary>
+                代理取药人 Id  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.Agent">
+            <summary>
+                代理取药人  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DispensingId">
+            <summary>
+                发药确认人\复核人 Id   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DispensingTime">
+            <summary>
+                发药确认\复核时间  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.DispensingNumber">
+            <summary>
+                发药确认\复核的摆药单号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.FlowState">
+            <summary>
+                处理执行的状态，如 HIS已审核；HIS已计费；HIS已执行；SFRA已分配(位置); SFRA已执行；SFRA已审核；SFRA已上传； SFRA撤销、恢复、虚拟、终止等；通常处于'撤销'状态的记录不再参与任何统计报告计算
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.FlowRemark">
+            <summary>
+                对<see cref="P:HealthCare.Data.Prescription.FlowState" />的详细描述，如 从'HIS已执行' 到 'SFRA已分配(位置)' 时 发生'物品批号不一致，无法提供HIS物品批号取药'
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.OperationScheduleId">
+            <summary>
+                手术唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.RetriesNumber">
+            <summary>
+                重试次数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.IsSynchronized">
+            <summary>
+                是否已经计费成功
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.MedicationId">
+            <summary>
+                药品预支唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Prescription.GoodsSnapshot">
+            <summary>
+                急症补录时上传的图片的地址
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Deposit">
+            <summary>
+                押金
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Deposit.Amount">
+            <summary>
+                金额
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Deposit.Code">
+            <summary>
+                押金编号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Deposit.PrintRecords">
+            <summary>
+                打印次数信息
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.PrintRecordInfo">
+            <summary>
+                数据打印次数相关信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.PrintRecordInfo.Operator">
+            <summary>
+                操作员，打印操作员
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.PrintRecordInfo.PrintCount">
+            <summary>
+                打印次数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.PrintRecordInfo.PrintTime">
+            <summary>
+                打印时刻
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.PrintRecordInfo.Remark">
+            <summary>
+                打印的时刻、打印人、第几次打印，备注信息 
+                次数、打印人员、打印时间、备注等
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Medication">
+            <summary>
+                预支记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.Doctor">
+            <summary>
+                医生
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.DoctorId">
+            <summary>
+                医生唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.Patient">
+            <summary>
+                患者
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.PatientId">
+            <summary>
+                患者唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.OperatorId">
+            <summary>
+                操作人唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.OperatorName">
+            <summary>
+                操作人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.IsSynchronized">
+            <summary>
+                是否已经和 HIS 同步数据
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.FeeTime">
+            <summary>
+                计费时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.PrescriptionId">
+            <summary>
+                关联的医嘱。由本预支记录产生的补录 当 <see cref="P:HealthCare.Data.Exchange.Mode"/>为<see cref="F:HealthCare.Data.ExchangeMode.Medication"/>时有效
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.CheckOutIds">
+            <summary>
+                当 <see cref="P:HealthCare.Data.Exchange.Mode"/>为<see cref="F:HealthCare.Data.ExchangeMode.Medication"/>时，记录关联的预支取药记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.CheckInId">
+            <summary>
+                当 <see cref="P:HealthCare.Data.Exchange.Mode"/>为<see cref="F:HealthCare.Data.ExchangeMode.Medication"/>时，记录关联的预支退回记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.InOutBalance">
+            <summary>
+                取退平衡。 预支、取退、消耗平衡
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.GoodsSnapshot">
+            <summary>
+                急症补录时上传的图片的地址
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.OperationSchedule">
+            <summary>
+                手术
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Medication.OperationScheduleId">
+            <summary>
+                手术唯一标识
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.InternalAllocation">
+            <summary>
+                内部流转记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.InternalAllocation.ApplyId">
+            <summary>
+                申请号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.InternalAllocation.TurnInDevice">
+            <summary>
+                转入终端
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.InternalAllocation.TurnOutDevice">
+            <summary>
+                转出终端
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.InternalAllocation.OperatorId">
+            <summary>
+                操作人唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.InternalAllocation.OperatorName">
+            <summary>
+                操作人
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Inventory">
+            <summary>
+                物品库存，归档记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.CustomerId">
+            <summary>
+                客户编码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.Computer">
+            <summary>
+                终端计算机IP
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.Goods">
+            <summary>
+                物品对象 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.GoodsId">
+            <summary>
+                物品Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.BatchNumber">
+            <summary>
+                批号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.ExpiredDate">
+            <summary>
+                过期时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.QtyInitial">
+            <summary>
+                初始库存（上次计算的结存）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.QtyCheckOut">
+            <summary>
+                消耗量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.QtyCheckIn">
+            <summary>
+                入库量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.StatsTime">
+            <summary>
+                统计库存的时刻，结存时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.SpaceRemark">
+            <summary>
+                位置说明，对<see cref="P:HealthCare.Data.Inventory.StorageSpace" />的解释说明
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Inventory.StorageSpace">
+            <summary>
+                存储位置，如药房、柜子
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.MongoJournal">
+            <summary>
+                MONGO日志
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoJournal.Computer">
+            <summary>
+                终端计算机IP
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.AccessJournal">
+            <summary>
+                系统日志
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.ActionJournal">
+            <summary>
+                操作日志记录，记录着所有动作
+            </summary>
+            <remarks>
+                动作为主线，为了什么业务，谁（执行人）操作了什么位置的物品
+            </remarks>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.PrimaryUserId">
+            <summary>
+                主要操作人的登录 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.PrimaryUserName">
+            <summary>
+                主要操作人的显示姓名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.SecondaryUserId">
+            <summary>
+                监督人的登录Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.SecondaryUserName">
+            <summary>
+                监督人的显示姓名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.OperatorUserId">
+            <summary>
+                实际操作人的Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.OperatorUserName">
+            <summary>
+                实际操作人的UserName
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.TargetId">
+            <summary>
+                关联的业务数据id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.TargetType">
+            <summary>
+                目标类别名，出入库[Exchange]; 调拨出入库[Allocation]; 医嘱取退[Prescription]; 预支退还[Medication];
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.No">
+            <summary>
+                节点No编号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.ActionJournal.Goods">
+            <summary>
+                [BsonIgnore]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.StorageJournal">
+            <summary>
+                存储节点日志，即库存状态日志记录
+            </summary>
+            <remarks>
+                归档存储日志，<see cref="T:HealthCare.Data.Storage" />的规格变化不影响已归档记录
+            </remarks>
+        </member>
+        <member name="P:HealthCare.Data.StorageJournal.No">
+            <summary>
+                节点 No 编号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.StorageJournal.Fills">
+            <summary>
+                存储的物品数据
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Person">
+            <summary>
+                自然人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Age">
+            <summary>
+                年龄  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Birthday">
+            <summary>
+                出生日期    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Gender">
+            <summary>
+                性别  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Nation">
+            <summary>
+                民族  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Nationality">
+            <summary>
+                国籍  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.CertificateCode">
+            <summary>
+                证件号码    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.CertificateType">
+            <summary>
+                证件类型    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Address">
+            <summary>
+                住址  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.CellPhone">
+            <summary>
+                联系电话    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Email">
+            <summary>
+                邮箱  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Person.Post">
+            <summary>
+                邮编  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Employee">
+            <summary>
+                员工信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.Department">
+            <summary>
+                部门
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.DepartmentId">
+            <summary>
+                部门 ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.JobNo">
+            <summary>
+                工号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.JobState">
+            <summary>
+                在职状态    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.JobTitle">
+            <summary>
+                职称
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Employee.Signature">
+            <summary>
+                电子签名    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Patient">
+            <summary>
+                患者信息（可包括门诊数据、住院数据、手术数据）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.AgeCharacter">
+            <summary>
+                年龄特征. 如六个月, 一岁零两天
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.Clinic">
+            <summary>
+                患者门诊数据  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.Diagnostic">
+            <summary>
+                诊断
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.Hospitalization">
+            <summary>
+                患者住院数据
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.MedicareNumber">
+            <summary>
+                医保号、社保号 [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.RegisterNumber">
+            <summary>
+                就诊卡号    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Patient.MedicalRecordNo">
+            <summary>
+                病历号    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Clinic">
+            <summary>
+                患者的门诊信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Clinic.SerialNumber">
+            <summary>
+                门诊号
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Hospitalization">
+            <summary>
+                患者的住院信息
+            </summary>
+            <remarks>
+                解释：患者会有多个住院记录，而在我方系统，并未使用1:N关系，而是直接将住院记录与患者信息保存在一起
+            </remarks>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.AdmittedDepartment">
+            <summary>
+                患者入院科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.AdmittedDepartmentId">
+            <summary>
+                患者入院科室 Id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.HospitalNumber">
+            <summary>
+                住院号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.InitiationTime">
+            <summary>
+                入院时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.CumulativeCount">
+            <summary>
+                入院次数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.ResidedArea">
+            <summary>
+                所属病区
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.ResidedAreaId">
+            <summary>
+                所属病区唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.BedNo">
+            <summary>
+                床号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.Room">
+            <summary>
+                所属手术间   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Hospitalization.RoomId">
+            <summary>
+                所属手术间唯一标识   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Simplified">
+            <summary>
+                简单化数据对象，根据<see cref="P:HealthCare.Data.Simplified.Filter" />筛选数据类型
+            </summary>
+        </member>
+        <member name="M:HealthCare.Data.Simplified.#ctor">
+            <summary>
+                创建对象实例
+            </summary>
+        </member>
+        <member name="M:HealthCare.Data.Simplified.#ctor(System.String)">
+            <summary>
+                创建对象实例
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Simplified.Filter">
+            <summary>
+                数据过滤器
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Goods">
+            <summary>
+                商品物品，如物品、耗材
+            </summary>
+            <remarks>
+                目前只有物品一个子类，考虑到如果扩展到手术衣高值耗材等，此时暂抽象出'物品'作为基类，但不一定合适或有意义。
+            </remarks>
+        </member>
+        <member name="P:HealthCare.Data.Goods.SmallPackageUnit">
+            <summary>
+                小包装单位 如mg、ml、支 、片、个、贴、盒
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Conversion">
+            <summary>
+                包装转换率  默认取值1，由<see cref="P:HealthCare.Data.Goods.SmallPackageUnit" />到<see cref="P:HealthCare.Data.Goods.UsedUnit" />转换倍数，如1盒=6支，此时计做6
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.UsedUnit">
+            <summary>
+                最小用药单位，如mg、ml、支 、片、个、贴、盒
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Specification">
+            <summary>
+                规格，如30mg; 0.01g:1ml
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Manufacturer">
+            <summary>
+                生产厂家
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Trader">
+            <summary>
+                耗材经销商, 根据经销商移除  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Price">
+            <summary>
+                单价
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.GoodsType">
+            <summary>
+                如麻、精一、精二、毒物、易制毒、耗材(手术衣、拖鞋)
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Dosage">
+            <summary>
+                (单位)剂量 单味药的成人内服一日用量 [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.DosageForm">
+            <summary>
+                剂型 为适应治疗或预防的需要而制备的药物应用形式    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.IsAmpoule">
+            <summary>
+                麻醉药品空安瓿销毁
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.GenericName">
+            <summary>
+                物品通用名   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.TradeName">
+            <summary>
+                物品商品名 [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.PrescriptionType">
+            <summary>
+                打印处方类型 红处方|白处方  [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.LabelTemplate">
+            <summary>
+                标签打印模板
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Goods.Reimburse">
+            <summary>
+                医保报销方式，如甲（70%）-医保类，乙（30%）-医保类，自费等   [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.GoodsCategory">
+            <summary>
+                物品分类 分组信息
+            </summary>
+        </member>
+        <member name="M:HealthCare.Data.GoodsCategory.#ctor">
+            <summary>
+                创建对象实例
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.CustomerId">
+            <summary>
+                客户编码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.Goods">
+            <summary>
+                分类所含的物品集合，集合项带有顺序含义 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.GoodsKeys">
+            <summary>
+                物品<see cref="P:HealthCare.Data.SfraObject.UniqueId" />集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.IsDoubleCertify">
+            <summary>
+                取该物品时是否需要双人认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.PermitAlloc">
+            <summary>
+                SFRA 是否可以生成调拨单
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.TemplateId">
+            <summary>
+               红处方模板id
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.Template">
+            <summary>
+                模板
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.Background">
+            <summary>
+                背景色 - RGB，默认白色(透明色)
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsCategory.Foreground">
+            <summary>
+                前景色 - RGB，默认黑色
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Kit">
+            <summary>
+                套装信息,含有多个物品的套装
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Kit.CreatorId">
+            <summary>
+                该套装的创建人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Kit.Kits">
+            <summary>
+                套装内的物品集合
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.GoodsInGroup">
+            <summary>
+                套装内的物品集合 或 估药规则内的物品集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsInGroup.Goods">
+            <summary>
+                物品 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsInGroup.GoodsId">
+            <summary>
+                物品 ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.GoodsInGroup.Qty">
+            <summary>
+                物品的数量
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Role">
+            <summary>
+                角色，角色ID需要人工编码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.Users">
+            <summary>
+                角色内成员用户的ID集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.Menus">
+            <summary>
+                角色所包含的功能页面ID集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.DefaultMenu">
+            <summary>
+                角色的默认页（拥有该角色的人员，登录之后的默认功能页）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.AvailableStorages">
+            <summary>
+                允许使用的存储位置。格式：ip:no
+                每个节点编码全院唯一，例如药柜可控设备采用14位16进制编码 FF(药柜) FFFF(抽屉) FFFF(药盒) FFFF(针剂) 等4层级
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.DataPermissions">
+            <summary>
+                数据授权集合，采用硬编码方式，数据项ID集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Role.ParentId">
+            <summary>
+                父级角色编号
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Menu">
+            <summary>
+                功能菜单，功能ID使用固定GUID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Menu.Uri">
+            <summary>
+                功能页面地址，类型全名或
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Menu.Icon">
+            <summary>
+                font awesome 图标
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Menu.IsModule">
+            <summary>
+                是否是模块（模块或功能）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Menu.ParentId">
+            <summary>
+                根模块 ID
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Department">
+            <summary>
+                部门、科室、手术室、病区等信息
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Transfer">
+            <summary>
+                物品清点记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.Computer">
+            <summary>
+                终端 IP 地址
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.Executor">
+            <summary>
+                执行清点人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.Login">
+            <summary>
+                登录人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecords">
+            <summary>
+                清点集合信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.OperationalDetails">
+            <summary>
+                清点对应的操作日志记录
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Transfer.OperationalDetail">
+            <summary>
+                清点对应的操作日志记录
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Transfer.TransferRecord">
+            <summary>
+                清点记录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecord.No">
+            <summary>
+                位置
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecord.EstimateQty">
+            <summary>
+                预计数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecord.ActualQty">
+            <summary>
+                实际数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecord.AccountQty">
+            <summary>
+                销账数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Transfer.TransferRecord.CrossAccount">
+            <summary>
+                是否销账完毕
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Evaluate">
+            <summary>
+                估药规则
+            </summary>
+            <remarks>
+                设置关键字和药品的关联, 以后按照该规则来快速预支药品. 通常在患者的诊断信息中匹配关键字
+            </remarks>
+        </member>
+        <member name="P:HealthCare.Data.Evaluate.IsActived">
+            <summary>
+                激活状态需要按照关键字分配药品
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Evaluate.Keywords">
+            <summary>
+                关键词, 按照半角逗号分隔
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Evaluate.Evaluates">
+            <summary>
+                估药规则内的物品集合
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.User">
+            <summary>
+                系统用户，不针对用户授权，所有权限均来自所属角色
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.LoginId">
+            <summary>
+                登录名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Employee">
+            <summary>
+                员工信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CanPasswordAuth">
+            <summary>
+                是否允许密码登录认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Password">
+            <summary>
+                登录密码，非明文存储，采用 MD5 存储，密码不具有恢复功能，只提供重置
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CanCardAuth">
+            <summary>
+                是否允许打卡认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CardNumber">
+            <summary>
+                员工卡号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CanIrisAuth">
+            <summary>
+                是否允许虹膜认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Iris">
+            <summary>
+                虹膜特征，长度为 2，每一项代表一只眼睛，每只眼睛最多允许保存 3 个 base64 编码的模板（以';'分割）
+                顺序自定义
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CanPrintfingerAuth">
+            <summary>
+                是否允许指纹认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Fingerprint">
+            <summary>
+                指纹特征，长度为 10，每一项代表一个手指，每个手指最多允许保存 3 个 base64 编码的模板（以';'分割）
+                顺序自定义
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.CanFaceAuth">
+            <summary>
+                是否允许人脸认证
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Face">
+            <summary>
+                人脸特征，最多允许保存 3 个 base64 编码的模板（以';'分割）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.AutoExpiredTime">
+            <summary>
+                自动过期时间，即有效期内允许登录，过期后自动拒绝登录
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.IsNotExpired">
+            <summary>
+                是否未过期，即未超出<see cref="P:HealthCare.Data.User.AutoExpiredTime" />期限
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Roles">
+            <summary>
+                所属角色ID集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.Menus">
+            <summary>
+                已经授权访问的功能页面集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.AvailableStorages">
+            <summary>
+                允许使用的存储位置。格式：ip:no
+                每个节点编码全院唯一，例如药柜可控设备采用 14 位 16 进制编码 FF(药柜) FFFF(抽屉) FFFF(药盒) FFFF(针剂) 等4层级
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.User.DataPermissions">
+            <summary>
+                数据授权集合，采用硬编码方式，数据项ID集合
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.SystemConfig">
+            <summary>
+                系统参数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.SystemConfig.JObject">
+            <summary>
+                JSON对象
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.TerminalGoods">
+            <summary>
+                终端物品
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.Computer">
+            <summary>
+                终端的IP地址
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.Goods">
+            <summary>
+                Goods
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.GoodsId">
+            <summary>
+                GoodsId
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.StorageQuota">
+            <summary>
+                最大存储基数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.WarningQuota">
+            <summary>
+                预警基数
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.CurrentQuota">
+            <summary>
+                当前存储数量 (无效冗余字段, 数据库并未存储药品当前数据)
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.Foreground">
+            <summary>
+                前景色-ARGB，默认黑色
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.TerminalGoods.Background">
+            <summary>
+                背景色-ARGB，默认白色(透明色)
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.AcceptanceStandard">
+            <summary>
+                调拨验收标准
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.AcceptanceStandard.DefaultValue">
+            <summary>
+                默认值
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.AcceptanceStandard.DisplayContent">
+            <summary>
+                显示内容
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.AcceptanceStandard.IsEnabled">
+            <summary>
+                是否启用
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.AcceptanceStandard.QualifiedValue">
+            <summary>
+                合格值
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.OperationSchedule">
+            <summary>
+                手术排班信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.PatientId">
+            <summary>
+                患者
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.ApplyTime">
+            <summary>
+                手术申请时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.OperationLevel">
+            <summary>
+                手术等级
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.OperationType">
+            <summary>
+                手术类别，择期、急诊
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.OperationState">
+            <summary>
+                手术状态，术前、术中、术后、回病房等
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.IdentityBarcode">
+            <summary>
+                患者身份条码 通常为 进手术室时, 扫描患者手腕的条码确认患者信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.RoomId">
+            <summary>
+                手术室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.StageTime">
+            <summary>
+                台次（手术不能一次完成，分成几个不同的时间做手术，每一次都是一个台次）
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.ExecutionBeginTime">
+            <summary>
+                手术开始时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.AnesthesiaMode">
+            <summary>
+                麻醉方式，局麻、全麻
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.Anesthetist">
+            <summary>
+                麻醉医生
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.AnesthetistId">
+            <summary>
+                麻醉医生
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.PrimaryDoctor">
+            <summary>
+                主刀医生    [BsonIgnoreIfNull]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.PrimaryDoctorId">
+            <summary>
+                主刀医生
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.ExecutionEndTime">
+            <summary>
+                手术结束时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.IsCancelled">
+            <summary>
+                手术是否被取消
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.OperationSchedule.Remark">
+            <summary>
+                备注
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Ampoule">
+            <summary>
+                [ mongo = <see cref="T:HealthCare.Data.Ampoule" /> ]安瓿回收信息
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.Computer">
+            <summary>
+                终端IP
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.Department">
+            <summary>
+                退回科室 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.DepartmentId">
+            <summary>
+                归还部门/科室
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.Goods">
+            <summary>
+                物品对象 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.GoodsId">
+            <summary>
+                物品唯一标识
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.BatchNumber">
+            <summary>
+                批号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.ExpiredDate">
+            <summary>
+                过期时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.ExpectedQty">
+            <summary>
+                应回收数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.ActualQty">
+            <summary>
+                归还数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.FinishedDestory">
+            <summary>
+                已完成销毁
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.RepaidPerson">
+            <summary>
+                归还空安瓿的人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.ReceivePerson">
+            <summary>
+                接收空安瓿的人
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.Certifier">
+            <summary>
+                残液量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Ampoule.Raffinate">
+            <summary>
+                证明人
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.Destory">
+            <summary>
+                空安瓿废贴销毁
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.Address">
+            <summary>
+                销毁地点
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.Ampoules">
+            <summary>
+                销毁的回收记录的ID集合
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.BatchNumber">
+            <summary>
+                批号
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.ExpiredDate">
+            <summary>
+                过期时间
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.Computer">
+            <summary>
+                终端IP
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.DestoryQty">
+            <summary>
+                销毁数量
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.DestroyMode">
+            <summary>
+                销毁方式
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.ExecutorId">
+            <summary>
+                执行人的 ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.ExecutorName">
+            <summary>
+                执行人的名字
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.Goods">
+            <summary>
+                物品对象 [BsonIgnore]
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.GoodsId">
+            <summary>
+                物品标识 ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.SupervisorId">
+            <summary>
+                监督人的 ID
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.Destory.SupervisorName">
+            <summary>
+                监督人的名字
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.DesignerTemplate">
+            <summary>
+                设计器保存的模板。如红处方打印模板，条码
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.DesignerTemplate.RenderDetails">
+            <summary>
+                模板，记录所有的版本，数组下标即版本号
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.MongoAttribute">
+            <summary>
+                MONGO类型特性
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoAttribute.AllowSync">
+            <summary>
+                允许使用数据同步服务
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoAttribute.Collection">
+            <summary>
+                mongo集合名称
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoAttribute.Display">
+            <summary>
+                显示名称
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoAttribute.Order">
+            <summary>
+                显示顺序
+            </summary>
+        </member>
+        <member name="T:HealthCare.Data.MongoMemberAttribute">
+            <summary>
+                MONGO成员特性
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.Description">
+            <summary>
+                详细描述
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.Display">
+            <summary>
+                显示名
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.IsHidden">
+            <summary>
+                隐藏字段，即不同步该字段数据
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.IsReadOnly">
+            <summary>
+                是否只读
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.IsRequired">
+            <summary>
+                是否必填
+            </summary>
+        </member>
+        <member name="P:HealthCare.Data.MongoMemberAttribute.Order">
+            <summary>
+                显示顺序
+            </summary>
+        </member>
+    </members>
+</doc>
